@@ -1,6 +1,17 @@
+include inc/header.pug
+
+.container
+  br
+  br
+  h2 List of all registed vehicles:
+  br
+
 each user,i in users
-    p SN #{i+1} 
-    p Name:#{user.name} 
-    p Number:#{user.number_plate} 
-    a(href=`/details?number_plate=${user.number_plate}`) Detalis
-    br
+    .container
+      br
+      ul.list-group
+        li.list-group-item.active #{i+1}) #{user.name}
+        li.list-group-item Number Plate:#{user.number_plate} 
+        li.list-group-item Data1: emptys
+        li.list-group-item 
+          a(href=`/details?number_plate=${user.number_plate}`) Details 

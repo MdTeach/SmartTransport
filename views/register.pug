@@ -1,10 +1,12 @@
-form(method='POST' action='/register')
-  | First name:
+include inc/header.pug
+.container
   br
-  input(type='text', name='name')
-  br
-  |   Last name:
-  br
-  input(type='text', name='number')
-  input(type='submit', value='Submit')
-
+  h2 Register the Vehicle
+.container
+  form
+    .form-group
+      input#name.form-control(type='text', name='name' aria-describedby='emailHelp', placeholder='Name for the vehicle')
+    .form-group
+      input#number_plate.form-control(type='text', name='number' placeholder='Number plate')
+      small#emailHelp.form-text.text-muted Number plate shall be unique
+    button.btn.btn-primary(type='submit') Register
