@@ -1,0 +1,6 @@
+each user,i in users
+    p SN #{i+1} 
+    p Name:#{user.name} 
+    p Number:#{user.number_plate} 
+    a(href=`/details?number_plate=${user.number_plate}`) Detalis
+    br
