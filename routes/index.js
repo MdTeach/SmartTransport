@@ -4,11 +4,6 @@ var router = express.Router();
 //Include the Data Model User
 var User = require('../models/user');
 
-//Get /
-router.get('/', function(req, res){
-    return res.send('Ok');
-});
-
 
 //Get / render register page
 router.get('/register', function(req, res){
@@ -46,9 +41,30 @@ router.get('/profiles', (req,res,next)=>{
         if (err) {
             return next(err);
         } else {
-            res.send(users);
+            return res.render('user_list',{users});
         }
     });
+});
+
+// GET details/ show the details about the vehicle
+router.get('/details',(req,res,next)=>{
+    const number_plate = req.query.number_plate;
+    if(!number_plate){
+        return res.redirect('/profiles');    
+    }else{
+        User.findOne({ number_plate:number_plate }, function(err, data) {
+            if (err) {
+                return next(err);
+            } else {
+                if (!data) {
+                    return res.send('Data not found :(');
+                } else {
+                    console.log(data);
+                    return res.render('user_profile', { data: data });
+                }
+            }
+        });
+    }
 });
 
 // GET canvas/ => render the canvas
