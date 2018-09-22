@@ -8,9 +8,8 @@ var User = require('../models/user');
 
 //Get / homepage
 router.get('/home', function(req, res){
-     res.render('home');
+     res.render('canvas');
 });
-
 
 module.exports = router;
  

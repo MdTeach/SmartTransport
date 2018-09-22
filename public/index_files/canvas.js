@@ -20,4 +20,3 @@ let resizeCanvas = () =>{
     cnv.style.left = (bw/2 - cnv.height/2) + 'px'
 }
 
-

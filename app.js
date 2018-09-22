@@ -3,6 +3,10 @@ const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose');
 
+const server = require('http').Server(app);
+const socket = require('socket.io');
+
+
 // mongodb connection
 mongoose.connect("mongodb://localhost:27017/hackathon");
 const db = mongoose.connection;
@@ -22,9 +26,20 @@ app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
 
 
+//manage the sockets
+var io = socket(server);
+io.on('connection', function (socket) {
+    console.log("Connected sucessfully");
+    socket.on('msg', (data)=>{
+        console.log(data["msg"]);
+    });
+});
+
 // include routes
 var routes = require('./routes/index');
-app.use('/', routes);
+var home_routes = require('./routes/home');
+app.use(routes);
+app.use(home_routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -43,7 +58,21 @@ app.use(function(err, req, res, next) {
     });
 });
 
-
-app.listen(80,'192.168.100.18',()=>{
+//192.168.100.1
+server.listen(80,'192.168.100.25',()=>{
     console.log("Listening at port 80");
 })
+
+var io = socket(server);
+io.on('connection', function (socket) {
+    console.log("Connected sucessfully");
+    socket.on('msg', (data)=>{
+        io.emit("data", {msg:data});
+        console.log(data["msg"]);
+    });
+    socket.on('msg1', (data)=>{
+        io.emit("data1", {msg1:data});
+        console.log(data["msg1"]+"Rotation");
+    });
+});
+
