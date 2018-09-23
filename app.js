@@ -59,7 +59,7 @@ app.use(function(err, req, res, next) {
 });
 
 //192.168.100.1
-server.listen(80,'192.168.100.25',()=>{
+server.listen(80,'192.168.10.67',()=>{
     console.log("Listening at port 80");
 })
 
@@ -75,4 +75,5 @@ io.on('connection', function (socket) {
         console.log(data["msg1"]+"Rotation");
     });
 });
+
 

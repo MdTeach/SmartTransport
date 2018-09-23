@@ -1,34 +1,20 @@
 let cnv = initCanvas()
 document.body.appendChild(cnv)
 let ctx = cnv.getContext('2d')
-ctx.font = '50px ariel'
+ctx.font = '40px ariel'
 let gridData = getGridData()
+
 let map = new Map(gridData, ctx)
 let testArr = []
 
 let vehicle1 = new Vehicle(cnv.width/2, cnv.height/2, cnv.width/50, ctx)
+
+background(ctx)
+map.draw(cnv.height, cnv.width)
 map.renderGrid(cnv.width, cnv.height)
 vehicle1.drawMarker()
 
-function handleOrientation(event)
-{
-    
-}
-
-// window.addEventListener('deviceorientation', handleOrientation)
-// window.addEventListener('devicemotion', event => {
-//     vehicle1.vx = event.acceleration.x
-//     vehicle1.vy = event.acceleration.y
-//     map.renderGrid(cnv.width, cnv.height)
-//     if(Math.abs(event.acceleration.y>2||Math.abs(event.acceleration.x)>2))
-//         vehicle1.move()
-//     vehicle1.drawMarker()
-//     ctx.fillStyle = 'black'
-// /*     ctx.fillText(`Xvel: ${vehicle1.vx}`, cnv.width/2, cnv.height*5/6)
-//     ctx.fillText(`Yvel: ${vehicle1.vy}`, cnv.width/2, cnv.height*8/9) */
-// })
-// window.addEventListener("resize", event =>{})
-const socket = io.connect('http://192.168.100.25');    
+const socket = io.connect('http://192.168.10.67');
 window.addEventListener('devicemotion', (event)=>{
     let x = event.acceleration.y;
     let y =event.acceleration.x;
@@ -51,7 +37,10 @@ socket.on('data', (data)=>{
      let aY = message.msg[1];
      vehicle1.vx = aX;
      vehicle1.vy = aY;
-     map.renderGrid(cnv.width, cnv.height);
+     background(ctx)
+     map.draw(cnv.width, cnv.height)
+     map.drawCracks()
+     map.renderGrid(cnv.width, cnv.height)
      vehicle1.move();
      vehicle1.drawMarker();
 });
@@ -66,6 +55,9 @@ socket.on('data1', (data)=>{
     event.preventDefault()
     vehicle1.az = -90-rotZ
     testArr.push([rotX, rotY])
+    background(ctx)
+    map.draw(cnv.width, cnv.height)
+    map.drawCracks()
     map.renderGrid(cnv.width, cnv.height)
     vehicle1.move()
     vehicle1.drawMarker()
@@ -76,15 +68,14 @@ socket.on('data1', (data)=>{
         {
             ctx.fillStyle = 'red';
             // setInterval(()=>ctx.fillRect(0, 0, cnv.height, cnv.width), 100)
-            ctx.fillRect(0, 0, cnv.width, cnv.height)
+            map.addCrack(vehicle1.x, vehicle1.y)
             console.log('difference:\n')
-            console.log(testArr[1][0]-testArr[0][0]) 
+            console.log(testArr[1][0]-testArr[0][0])
             console.log('\n')
             console.log(testArr[1][1]-testArr[0][1])
         }
         testArr = []
     }
 })
-
 
 

@@ -31,7 +31,7 @@ let Vehicle = function(x, y, rad, ctx)
         //core marker
         this.ctx.beginPath()
         this.ctx.arc(this.x, this.y, this.rad, Math.PI*2, false)
-        this.ctx.fillStyle = 'blue'
+        this.ctx.fillStyle = '#fff'
         this.ctx.closePath()
         this.ctx.fill()
 
@@ -40,8 +40,7 @@ let Vehicle = function(x, y, rad, ctx)
         //halo marker
         this.ctx.beginPath()
         this.ctx.arc(this.x, this.y, this.rad*2, Math.PI*2, false)
-        ctx.fillStyle = 'rgba(1, 0, 0, 1)'
-        this.ctx.fillStyle = "rgba(.5, 0, 1, .35)"
+        this.ctx.fillStyle = "rgba(.5, .5, .5, .35)"
         this.ctx.closePath()
         this.ctx.fill()
     }
@@ -59,7 +58,6 @@ let Vehicle = function(x, y, rad, ctx)
         shape.forEach( point =>{
             this.ctx.lineTo(point[0], point[1])
         })
-        this.ctx.fillStyle = "blue"
         this.ctx.fill()
     }
     this.generateArray = function(){
